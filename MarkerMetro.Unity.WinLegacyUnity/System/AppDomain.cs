@@ -16,6 +16,10 @@ namespace MarkerMetro.Unity.WinLegacy
 
         private Assembly[] assemblies;
 
+        // @todo Implement
+        // Equivalent is Application.Current.Suspending ???
+        public event EventHandler DomainUnload;
+
         public static AppDomain CurrentDomain
         {
             get { return instance; }
