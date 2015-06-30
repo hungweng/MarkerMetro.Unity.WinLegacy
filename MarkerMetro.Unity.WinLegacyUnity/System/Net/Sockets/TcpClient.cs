@@ -125,37 +125,6 @@ namespace MarkerMetro.Unity.WinLegacy.Net.Sockets
 #endif
         }
 
-        public void BeginUpgradeToSsl (string hostName)
-        {
-#if NETFX_CORE
-            var task = UpgradeToSslAsync(SocketProtectionLevel.SslAllowNullEncryption, new HostName(hostName));
-            task.Wait();
-#else
-            throw new PlatformNotSupportedException();
-#endif
-        }
-
-#if NETFX_CORE
-        private async Task UpgradeToSslAsync(SocketProtectionLevel protectionLevel, HostName hostName)
-        {
-            try
-            {
-                // Try to upgrade to SSL
-                await _socket.UpgradeToSslAsync(protectionLevel, hostName);
-            }
-            catch (Exception exception)
-            {
-                Close();
-
-                // If this is an unknown status it means that the error is fatal and retry will likely fail.
-                if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
-                {
-                    throw;
-                }
-            }
-        }
-#endif
-
         public void Close()
         {
 #if NETFX_CORE  
